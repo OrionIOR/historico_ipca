@@ -27,8 +27,8 @@ export const getValorCorrigido = (
   ).id;
   let inflacaoAcumulada = 1;
 
-  for (let i = idIncial; i <= idFinal; i++) {
-    inflacaoAcumulada *= 1 + historicoInflacao[i - 1].ipca / 100;
+  for (let i = idIncial-1; i <= idFinal; i++) {
+    inflacaoAcumulada *= 1 + historicoInflacao[i].ipca / 100;
   }
   console.log(inflacaoAcumulada * valor);
   return valor * inflacaoAcumulada;
