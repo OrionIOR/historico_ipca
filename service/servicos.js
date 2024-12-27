@@ -1,4 +1,23 @@
 import { historicoInflacao } from "../data/data.js";
+import { ValidacaoErro } from "./validacaoErro.js";
+
+export const AnoMax = historicoInflacao.reduce(
+  (max, item) => (item.ano > max ? item.ano : max),
+  historicoInflacao[0].ano
+);
+export const AnoMin = historicoInflacao.reduce(
+  (min, item) => (item.ano < min ? item.ano : min),
+  historicoInflacao[0].ano
+);
+
+const anoFinalFiltrado = historicoInflacao.filter(
+  (periodo) => periodo.ano === AnoMax
+);
+
+export const LimiteMes = anoFinalFiltrado.reduce(
+  (max, periodo) => (periodo.mes > max ? periodo.mes : max),
+  anoFinalFiltrado[0].mes
+);
 
 export const getHistoricoInflacao = () => {
   return historicoInflacao;
@@ -64,41 +83,4 @@ export const calcularReajusteIPCA = (
   const resultado = valor * inflacaoAcumulada;
 
   return resultado;
-};
-
-export const ValidacaoErro = (
-  valor,
-  mesInicial,
-  mesFinal,
-  anoInicial,
-  anoFinal
-) => {
-  // precisa corrigir isso aqui...... colocar igual no exercicio
-  const anoLimiteFinal = historicoInflacao.reduce((max, item) => {
-    return item.ano > max ? item.ano : max;
-  });
-  console.log(anoLimiteFinal.ano);
-  const anoLimiteInicial = historicoInflacao.reduce((min, item) => {
-    return item.ano < min ? item.ano : min;
-  }, 2015);
-  console.log(anoLimiteInicial.ano);
-
-  if (
-    isNaN(valor) ||
-    isNaN(anoInicial) ||
-    isNaN(anoFinal) ||
-    isNaN(mesInicial) ||
-    isNaN(mesFinal) ||
-    mesInicial < 1 ||
-    mesInicial > 12 ||
-    mesFinal < 1 ||
-    mesFinal > 12 ||
-    (anoInicial < anoLimiteInicial && anoInicial > anoLimiteFinal) ||
-    (anoFinal < anoLimiteInicial && anoFinal > anoLimiteFinal) ||
-    anoFinal < anoInicial
-  ) {
-    return true;
-  } else {
-    return false;
-  }
 };

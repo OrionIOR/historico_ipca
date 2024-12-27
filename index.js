@@ -5,8 +5,12 @@ import {
   getHistoricoInflacaoId,
   getValorCorrigido,
   calcularReajusteIPCA,
-  ValidacaoErro,
+  AnoMax,
+  AnoMin,
+  LimiteMes,
 } from "./service/servicos.js";
+
+import { ValidacaoErro } from "./service/validacaoErro.js";
 
 const app = express();
 
@@ -17,8 +21,23 @@ app.get("/historicoIPCA/calcularIPCA", (req, res) => {
   const anoInicial = parseInt(req.query.anoInicial);
   const anoFinal = parseInt(req.query.anoFinal);
 
-  if (ValidacaoErro(valor, mesInicial, mesFinal, anoInicial, anoFinal)) {
-    res.status(400).json({ erro: "Paramentros Invalidos" });
+  const validar = ValidacaoErro(
+    valor,
+    mesInicial,
+    mesFinal,
+    anoInicial,
+    anoFinal,
+    AnoMin,
+    AnoMax,
+    LimiteMes
+  );
+  console.log(validar.Msg);
+  console.log(AnoMax);
+  console.log(AnoMin);
+  console.log(LimiteMes);
+  if (validar.status) {
+    res.status(400).json({ erro: "Paramentros Invalidos " + validar.Msg });
+    validar.Msg = [];
     return;
   }
 
