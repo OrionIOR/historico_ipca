@@ -76,8 +76,6 @@ const validarUltimoMes = (ano, anoLimiteFinal, mes, mesLimite) => {
   }
 };
 
-
-
 //Validação para a rota calcularIPCA
 export const ValidacaoErro = (
   valor,
@@ -120,8 +118,20 @@ export const ValidacaoErroId = (id) => {
   if (isNaN(id)) {
     validacao.Msg.push(`O id ${id} não é id valido`);
     validacao.status = true;
-    return true;
+    return validacao;
   } else {
     return false;
+  }
+};
+
+export const validarBuscaAno = (ano, maxAno, minAno) => {
+  if (isNaN(ano)) {
+    validacao.Msg.push(`Não é um ano valido`);
+    validacao.status = true;
+    return validacao;
+  } else if (ano < minAno || ano > maxAno) {
+    validacao.Msg.push(`O ano tem que ser entre ${minAno} e ${maxAno}`);
+    validacao.status = true;
+    return validacao;
   }
 };

@@ -10,7 +10,11 @@ import {
   LimiteMes,
 } from "./service/servicos.js";
 
-import { ValidacaoErro, ValidacaoErroId } from "./service/validacaoErro.js";
+import {
+  ValidacaoErro,
+  ValidacaoErroId,
+  validarBuscaAno,
+} from "./service/validacaoErro.js";
 
 const app = express();
 
@@ -36,20 +40,22 @@ app.get("/historicoIPCA/calcularIPCA", (req, res) => {
     res.status(400).json({ erro: "Paramentros Invalidos: " + validar.Msg });
     validar.Msg = [];
     return;
+  } else {
+    const resultado = calcularReajusteIPCA(
+      valor,
+      mesInicial,
+      mesFinal,
+      anoInicial,
+      anoFinal
+    );
+    res.json(parseFloat(resultado.toFixed(2)));
   }
-
-  const resultado = calcularReajusteIPCA(
-    valor,
-    mesInicial,
-    mesFinal,
-    anoInicial,
-    anoFinal
-  );
-  res.json(parseFloat(resultado.toFixed(2)));
 });
 
 app.get("/historicoIPCA", (req, res) => {
   const anoIPCA = parseInt(req.query.ano);
+  const validar = validarBuscaAno(anoIPCA);
+
   const historicoIPCA = anoIPCA
     ? getHistoricoInflacaoPorAno(anoIPCA)
     : getHistoricoInflacao();
@@ -58,10 +64,23 @@ app.get("/historicoIPCA", (req, res) => {
 });
 
 app.get("/historicoIPCA/:id", (req, res) => {
-  const id = parseInt(req.params.id);
+  let id = req.params.id;
 
-  const historicoIPCA = getHistoricoInflacaoId(id);
-  res.json(historicoIPCA);
+  const validar = ValidacaoErroId(id);
+
+  if (validar.status) {
+    res.status(400).json({ erro: "Paramentros Invalidos: " + validar.Msg });
+    validar.Msg = [];
+    return;
+  } else {
+    id = parseInt(id);
+    const historicoIPCA = getHistoricoInflacaoId(id);
+    if (!historicoIPCA) {
+      res.status(400).json({ erro: "Id não encontrado" });
+      return;
+    }
+    res.json(historicoIPCA);
+  }
 });
 
 app.listen(8080, () => {
