@@ -52,18 +52,6 @@ const validarAno = (minAno, maxAno, ano) => {
   }
 };
 
-const validarMesLimite = (mes, mesLimite) => {
-  if (mes >= mesLimite) {
-    validacao.Msg.push(
-      `O mes ${mes} não pode ser maior que o mes ${mesLimite}`
-    );
-    validacao.status = true;
-    return true;
-  } else {
-    return false;
-  }
-};
-
 const ValidarMesesNoAno = (anoIncial, anoFinal, mesInicial, mesFinal) => {
   if (anoIncial == anoFinal && mesInicial > mesFinal) {
     validacao.Msg.push([
@@ -88,15 +76,7 @@ const validarUltimoMes = (ano, anoLimiteFinal, mes, mesLimite) => {
   }
 };
 
-export const ValidacaoErroId = (id) => {
-  if (isNaN(id)) {
-    validacao.Msg.push(`O id ${id} não é id valido`);
-    validacao.status = true;
-    return true;
-  } else {
-    return false;
-  }
-};
+
 
 //Validação para a rota calcularIPCA
 export const ValidacaoErro = (
@@ -131,6 +111,16 @@ export const ValidacaoErro = (
     ValidarMesesNoAno(anoInicial, anoFinal, mesInicial, mesFinal)
   ) {
     return validacao;
+  } else {
+    return false;
+  }
+};
+
+export const ValidacaoErroId = (id) => {
+  if (isNaN(id)) {
+    validacao.Msg.push(`O id ${id} não é id valido`);
+    validacao.status = true;
+    return true;
   } else {
     return false;
   }

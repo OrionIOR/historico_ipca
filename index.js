@@ -10,7 +10,7 @@ import {
   LimiteMes,
 } from "./service/servicos.js";
 
-import { ValidacaoErro } from "./service/validacaoErro.js";
+import { ValidacaoErro, ValidacaoErroId } from "./service/validacaoErro.js";
 
 const app = express();
 
