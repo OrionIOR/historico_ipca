@@ -133,5 +133,7 @@ export const validarBuscaAno = (ano, maxAno, minAno) => {
     validacao.Msg.push(`O ano tem que ser entre ${minAno} e ${maxAno}`);
     validacao.status = true;
     return validacao;
+  } else {
+    return validacao;
   }
 };

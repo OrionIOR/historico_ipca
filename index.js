@@ -3,7 +3,6 @@ import {
   getHistoricoInflacao,
   getHistoricoInflacaoPorAno,
   getHistoricoInflacaoId,
-  getValorCorrigido,
   calcularReajusteIPCA,
   AnoMax,
   AnoMin,
@@ -54,13 +53,26 @@ app.get("/historicoIPCA/calcularIPCA", (req, res) => {
 
 app.get("/historicoIPCA", (req, res) => {
   const anoIPCA = parseInt(req.query.ano);
-  const validar = validarBuscaAno(anoIPCA);
 
-  const historicoIPCA = anoIPCA
-    ? getHistoricoInflacaoPorAno(anoIPCA)
-    : getHistoricoInflacao();
+  if (isNaN(anoIPCA)) {
+    res.json(getHistoricoInflacao());
+  } else {
+    const validar = validarBuscaAno(anoIPCA, AnoMax, AnoMin);
+    if (validar.status) {
+      res.status(400).json({ erro: "Paramentros Invalidos: " + validar.Msg });
+      validar.Msg = [];
+      return;
+    } else {
+      const resultado = getHistoricoInflacaoPorAno(anoIPCA);
 
-  res.json(historicoIPCA);
+      if (resultado.length === 0) {
+        res.status(400).json({ erro: "Ano não encontrado" });
+        return;
+      } else {
+        res.json(resultado);
+      }
+    }
+  }
 });
 
 app.get("/historicoIPCA/:id", (req, res) => {
