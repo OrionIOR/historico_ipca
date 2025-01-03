@@ -5,8 +5,7 @@ Este projeto tem como objetivo fornecer uma ferramenta para consultar o históri
 ## Funcionalidades
 
 - Consulta de dados históricos do IPCA.
-- Visualização gráfica dos dados.
-- Exportação dos dados para formatos CSV e JSON.
+- Exportação dos dados para formatos JSON.
 
 ## Estrutura do Projeto
 
@@ -36,11 +35,11 @@ Este projeto tem como objetivo fornecer uma ferramenta para consultar o históri
 - GET /historicoIPCA/calcularIPCA
   Calcula o reajuste do IPCA com base nos parâmetros fornecidos.
   Parâmetros de Consulta:
-  valor: Valor inicial a ser reajustado.
-  mesInicial: Mês inicial do período.
-  mesFinal: Mês final do período.
-  anoInicial: Ano inicial do período.
-  anoFinal: Ano final do período.
+  - **valor**: Valor inicial a ser reajustado.
+  - **mesInicial**: Mês inicial do período.
+  - **mesFinal**: Mês final do período.
+  - **anoInicial**: Ano inicial do período.
+  - **anoFinal**: Ano final do período.
 
 ## Instalação
 
