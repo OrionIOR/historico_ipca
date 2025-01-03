@@ -1,5 +1,4 @@
 import { historicoInflacao } from "../data/data.js";
-import { ValidacaoErro } from "./validacaoErro.js";
 
 export const AnoMax = historicoInflacao.reduce(
   (max, item) => (item.ano > max ? item.ano : max),
