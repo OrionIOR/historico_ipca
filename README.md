@@ -5,8 +5,7 @@ Este projeto tem como objetivo fornecer uma ferramenta para consultar o históri
 ## Funcionalidades
 
 - Consulta de dados históricos do IPCA.
-- Visualização gráfica dos dados.
-- Exportação dos dados para formatos CSV e JSON.
+- Exportação dos dados para formatos JSON.
 
 ## Estrutura do Projeto
 
