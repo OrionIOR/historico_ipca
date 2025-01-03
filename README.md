@@ -54,5 +54,5 @@ Este projeto tem como objetivo fornecer uma ferramenta para consultar o históri
    ```
 3. Instale as dependências:
    ```bash
-   pip install -r requirements.txt
-   ```
+   npm install
+ ```
