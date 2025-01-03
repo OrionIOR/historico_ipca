@@ -1,7 +1,11 @@
+// Inicializa um array vazio para armazenar mensagens de erro
 let MsgErro = [];
+// Inicializa uma variável booleana para indicar o status de erro
 let statusErro = false;
+// Cria um objeto de validação com as mensagens de erro e o status de erro
 let validacao = { Msg: MsgErro, status: statusErro };
 
+// Função para validar se um valor é numérico e maior que zero
 const validarValor = (valor) => {
   if (isNaN(valor) || valor <= 0) {
     validacao.Msg.push("Não é um Valor Valido");
@@ -12,6 +16,7 @@ const validarValor = (valor) => {
   }
 };
 
+// Função para validar se o ano inicial não é maior que o ano final
 const validaAnos = (anoIncial, anoFinal) => {
   if (anoIncial > anoFinal) {
     validacao.Msg.push("O ano inicial não pode ser maior que o ano final");
@@ -22,6 +27,7 @@ const validaAnos = (anoIncial, anoFinal) => {
   }
 };
 
+// Função para validar se um número é um ano ou mês válido (inteiro)
 const validarAnoMes = (num) => {
   if (!Number.isInteger(num)) {
     validacao.Msg.push("Não é um ANO ou MÊS valido");
@@ -32,6 +38,7 @@ const validarAnoMes = (num) => {
   }
 };
 
+// Função para validar se o mês está entre 1 e 12
 const validarMes = (mes) => {
   if (mes < 1 || mes > 12) {
     validacao.Msg.push("O MÊS tem que está entre 1 e 12");
@@ -42,6 +49,7 @@ const validarMes = (mes) => {
   }
 };
 
+// Função para validar se o ano está dentro de um intervalo permitido
 const validarAno = (minAno, maxAno, ano) => {
   if (ano < minAno && ano > maxAno) {
     validacao.Msg.push(`O ANO tem que está entre ${minAno} e ${maxAno}`);
@@ -52,6 +60,7 @@ const validarAno = (minAno, maxAno, ano) => {
   }
 };
 
+// Função para validar se o mês inicial não é maior que o mês final dentro do mesmo ano
 const ValidarMesesNoAno = (anoIncial, anoFinal, mesInicial, mesFinal) => {
   if (anoIncial == anoFinal && mesInicial > mesFinal) {
     validacao.Msg.push([
@@ -64,6 +73,7 @@ const ValidarMesesNoAno = (anoIncial, anoFinal, mesInicial, mesFinal) => {
   }
 };
 
+// Função para validar se o mês no último ano do período não é superior ao mês limite
 const validarUltimoMes = (ano, anoLimiteFinal, mes, mesLimite) => {
   if (ano === anoLimiteFinal && mes > mesLimite) {
     validacao.Msg.push(
@@ -76,7 +86,7 @@ const validarUltimoMes = (ano, anoLimiteFinal, mes, mesLimite) => {
   }
 };
 
-//Validação para a rota calcularIPCA
+// Função de validação para a rota calcularIPCA
 export const ValidacaoErro = (
   valor,
   mesInicial,
@@ -88,24 +98,24 @@ export const ValidacaoErro = (
   mesLimite
 ) => {
   if (
-    //Verefica se todos os campos foram preenchidos
+    // Verifica se todos os campos foram preenchidos
     validarValor(valor) ||
     validarAnoMes(mesInicial) ||
     validarAnoMes(mesFinal) ||
     validarAnoMes(anoInicial) ||
     validarAnoMes(anoFinal) ||
-    //Verifica se o mes esta entre 1 e 12
+    // Verifica se o mês está entre 1 e 12
     validarMes(mesInicial) ||
     validarMes(mesFinal) ||
-    //Verefica se o ano inicial não é maior que o ano final
+    // Verifica se o ano inicial não é maior que o ano final
     validaAnos(anoInicial, anoFinal) ||
-    //Verefica se o ano esta dentro dos anos limites da base de dado
+    // Verifica se o ano está dentro dos anos limites da base de dados
     validarAno(anoLimiteInicial, anoLimiteFinal, anoInicial) ||
     validarAno(anoLimiteInicial, anoLimiteFinal, anoFinal) ||
-    //Verefica se no Ano maximo permitido o mês é superior ao mes Limite daquele ano
+    // Verifica se no ano máximo permitido o mês é superior ao mês limite daquele ano
     validarUltimoMes(anoInicial, anoLimiteFinal, mesInicial, mesLimite) ||
     validarUltimoMes(anoFinal, anoLimiteFinal, mesFinal, mesLimite) ||
-    //Verificar se o mes inicial é superior ao mes final dentro do mesmo ano
+    // Verifica se o mês inicial é superior ao mês final dentro do mesmo ano
     ValidarMesesNoAno(anoInicial, anoFinal, mesInicial, mesFinal)
   ) {
     return validacao;
@@ -114,6 +124,7 @@ export const ValidacaoErro = (
   }
 };
 
+// Função para validar se um ID é numérico
 export const ValidacaoErroId = (id) => {
   if (isNaN(id)) {
     validacao.Msg.push(`O id ${id} não é id valido`);
@@ -124,6 +135,7 @@ export const ValidacaoErroId = (id) => {
   }
 };
 
+// Função para validar se um ano está dentro de um intervalo permitido
 export const validarBuscaAno = (ano, maxAno, minAno) => {
   if (isNaN(ano)) {
     validacao.Msg.push(`Não é um ano valido`);
